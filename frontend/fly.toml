@@ -1,0 +1,7 @@
+app = "ausauth-frontend"
+
+[build]
+# For a static frontend the builder can be configured or Fly will detect a suitable strategy.
+
+[env]
+# Any environment variables for frontend can be added here.

@@ -1,0 +1,10 @@
+app = "ausauth-backend"
+
+[build]
+# Build configuration can be customized. By default Fly will detect a Dockerfile or use builders.
+
+[env]
+# Example env keys; these are set via `flyctl secrets set` in CI or locally
+# MONGODB_URI = ""
+# SECRET = ""
+# REFRESH_SECRET = ""
