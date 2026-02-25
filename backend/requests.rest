@@ -1,0 +1,119 @@
+### Crear un nuevo usuario
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "name": "Test User",
+  "password": "secreto123"
+}
+
+###
+
+### Crear otro usuario
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "johndoe",
+  "name": "John Doe",
+  "password": "password123"
+}
+
+###
+
+### ERROR: Usuario con username duplicado
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "name": "Otro User",
+  "password": "otra123"
+}
+
+###
+
+### ERROR: Username muy corto (menos de 3 caracteres)
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "ab",
+  "name": "Short User",
+  "password": "password123"
+}
+
+###
+
+### ERROR: Sin password
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "nopassuser",
+  "name": "No Password User"
+}
+
+###
+
+### ERROR: Password muy corto (menos de 3 caracteres)
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "shortpass",
+  "name": "Short Pass User",
+  "password": "ab"
+}
+
+###
+
+### ERROR: Sin username
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "name": "No Username User",
+  "password": "password123"
+}
+
+###
+
+### Obtener todos los usuarios (para cuando hagamos GET)
+GET http://localhost:3003/api/users
+
+###
+
+### Obtener todos los blogs
+GET http://localhost:3003/api/blogs
+
+###
+
+### Crear un blog (IMPORTANTE: Primero crea un usuario y copia su id aquí)
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Mi primer blog con usuario",
+  "author": "Test User",
+  "content": "Este es el contenido del primer blog.",
+  "likes": 5,
+  "userId": "REEMPLAZA_CON_ID_DE_USUARIO"
+}
+
+###
+
+### Crear otro blog para el mismo usuario
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Segundo blog del usuario",
+  "author": "Test User",
+  "content": "Este es el contenido del segundo blog.",
+  "likes": 10,
+  "userId": "REEMPLAZA_CON_ID_DE_USUARIO"
+}
+
+###
