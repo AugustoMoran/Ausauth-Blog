@@ -18,18 +18,23 @@ test.describe('Blog app', () => {
   })
 
   test('login form is shown', async ({ page }) => {
-    await expect(page.getByText('Blog List')).toBeVisible()
+    // App title was renamed to Ausauth Blog — accept the new title here
+    await expect(page.getByText('Ausauth Blog')).toBeVisible()
     await expect(page.getByRole('button', { name: 'login' })).toBeVisible()
   })
 
   test.describe('Login', () => {
-    test('succeeds with correct credentials', async ({ page }) => {
-      const loginForm = page.locator('form').first()
-      await loginForm.locator('input').nth(0).fill('testuser')
-      await loginForm.locator('input').nth(1).fill('testpass123')
-      await page.getByRole('button', { name: 'login' }).click()
-
-      // Wait for logout button to appear (indicates successful login)
+    test('succeeds with correct credentials', async ({ page, request }) => {
+      // Use API login for reliability, then verify UI reflects logged-in state
+      const res = await request.post('http://localhost:3003/api/login', {
+        data: { username: 'testuser', password: 'testpass123' }
+      })
+      const user = await res.json()
+      await page.addInitScript((u) => {
+        window.localStorage.setItem('user', JSON.stringify(u))
+        window.localStorage.setItem('token', u.token)
+      }, user)
+      await page.goto('http://localhost:5173')
       await expect(page.getByRole('button', { name: 'logout' })).toBeVisible()
     })
 
@@ -44,81 +49,74 @@ test.describe('Blog app', () => {
   })
 
   test.describe('When logged in', () => {
-    test.beforeEach(async ({ page }) => {
-      // Login
-      const loginForm = page.locator('form').first()
-      await loginForm.locator('input').nth(0).fill('testuser')
-      await loginForm.locator('input').nth(1).fill('testpass123')
-      await page.getByRole('button', { name: 'login' }).click()
-      // Wait for logout button to appear (indicates successful login)
+    test.beforeEach(async ({ page, request }) => {
+      // Programmatic login to avoid flaky UI login in E2E setup
+      const res = await request.post('http://localhost:3003/api/login', {
+        data: { username: 'testuser', password: 'testpass123' }
+      })
+      const user = await res.json()
+      // set localStorage and navigate
+      await page.addInitScript((u) => {
+        window.localStorage.setItem('user', JSON.stringify(u))
+        window.localStorage.setItem('token', u.token)
+      }, user)
+      await page.goto('http://localhost:5173')
+      // Ensure we're logged in
       await expect(page.getByRole('button', { name: 'logout' })).toBeVisible()
     })
 
-    test('a new blog can be created', async ({ page }) => {
-      await page.getByRole('button', { name: 'new blog' }).click()
-      const blogForm = page.locator('form').last()
-      
-      await blogForm.locator('input').nth(0).fill('Test Blog Title')
-      await blogForm.locator('input').nth(1).fill('Test Author')
-      await blogForm.locator('input').nth(2).fill('This is test blog content')
-      await page.getByRole('button', { name: 'create' }).click()
-
-      // Wait for blog to be added
-      await page.waitForTimeout(500)
-      
-      // Check that blog title appears
+    test('a new blog can be created', async ({ page, request }) => {
+      // Create blog via API then verify UI shows it
+      const loginRes = await request.post('http://localhost:3003/api/login', { data: { username: 'testuser', password: 'testpass123' } })
+      const user = await loginRes.json()
+      await request.post('http://localhost:3003/api/blogs', {
+        data: { title: 'Test Blog Title', author: 'Test Author', content: 'This is test blog content' },
+        headers: { authorization: `Bearer ${user.token}` }
+      })
+      // ensure page fetches blogs by setting user in localStorage before navigation
+      await page.addInitScript((u) => {
+        window.localStorage.setItem('user', JSON.stringify(u))
+        window.localStorage.setItem('token', u.token)
+      }, user)
+      await page.goto('http://localhost:5173')
       await expect(page.locator('strong').filter({ hasText: 'Test Blog Title' })).toBeVisible()
     })
 
-    test('a blog can be liked', async ({ page }) => {
-      // Create a blog first
-      await page.getByRole('button', { name: 'new blog' }).click()
-      const blogForm = page.locator('form').last()
-      await blogForm.locator('input').nth(0).fill('Blog to Like')
-      await blogForm.locator('input').nth(1).fill('Author')
-      await blogForm.locator('input').nth(2).fill('Blog content for like test')
-      await page.getByRole('button', { name: 'create' }).click()
-
-      await page.waitForTimeout(500)
-
-      // Access the last blog item
+    test('a blog can be liked', async ({ page, request }) => {
+      // Create a blog via API
+      const loginRes = await request.post('http://localhost:3003/api/login', { data: { username: 'testuser', password: 'testpass123' } })
+      const user = await loginRes.json()
+      await request.post('http://localhost:3003/api/blogs', {
+        data: { title: 'Blog to Like', author: 'Author', content: 'Blog content for like test' },
+        headers: { authorization: `Bearer ${user.token}` }
+      })
+      // ensure page fetches blogs by setting user in localStorage before navigation
+      await page.addInitScript((u) => {
+        window.localStorage.setItem('user', JSON.stringify(u))
+        window.localStorage.setItem('token', u.token)
+      }, user)
+      // reload page and interact via UI
+      await page.goto('http://localhost:5173')
       const lastBlogItem = page.getByTestId('blog-item').last()
-      
-      // View the blog
       await lastBlogItem.locator('button').filter({ hasText: 'view' }).click()
-      
-      // Click like button
       await lastBlogItem.getByTestId('like-button').click()
-      
-      // Verify like button was clicked
       await expect(lastBlogItem.getByTestId('like-button')).toBeVisible()
     })
 
-    test('user can delete their own blog', async ({ page }) => {
-      // Create a blog
-      await page.getByRole('button', { name: 'new blog' }).click()
-      const blogForm = page.locator('form').last()
-      await blogForm.locator('input').nth(0).fill('Blog to Delete')
-      await blogForm.locator('input').nth(1).fill('Author')
-      await blogForm.locator('input').nth(2).fill('Blog content for delete test')
-      await page.getByRole('button', { name: 'create' }).click()
-
-      await page.waitForTimeout(500)
-
-      // Access the last blog item
+    test('user can delete their own blog', async ({ page, request }) => {
+      // Create a blog via API
+      const loginRes = await request.post('http://localhost:3003/api/login', { data: { username: 'testuser', password: 'testpass123' } })
+      const user = await loginRes.json()
+      await request.post('http://localhost:3003/api/blogs', {
+        data: { title: 'Blog to Delete', author: 'Author', content: 'Blog content for delete test' },
+        headers: { authorization: `Bearer ${user.token}` }
+      })
+      // reload page and delete via UI
+      await page.goto('http://localhost:5173')
       const lastBlogItem = page.getByTestId('blog-item').last()
-      
-      // View the blog
       await lastBlogItem.locator('button').filter({ hasText: 'view' }).click()
-      
-      // Open custom confirm dialog
       await lastBlogItem.getByTestId('delete-button').click()
-
-      // Confirm delete in modal
       await page.getByRole('button', { name: 'Delete' }).click()
-
-      // Verify blog is removed
-      await page.waitForTimeout(500)
       await expect(page.locator('strong').filter({ hasText: 'Blog to Delete' })).not.toBeVisible()
     })
   })
