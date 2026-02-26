@@ -54,6 +54,10 @@ if (process.env.NODE_ENV !== 'production') {
   app.use('/api/testing', testingRouter)
 }
 
+// root health/info endpoint to avoid 404 'unknown endpoint' on /
+app.get('/', (_req, res) => {
+  res.json({ status: 'ok', message: 'Ausauth Blog API running' })
+})
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 module.exports = app
