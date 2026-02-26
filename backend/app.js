@@ -64,7 +64,7 @@ app.get('/health', (_req, res) => {
 })
 
 // SPA fallback: serve index.html for non-API GET requests so client-side routing works
-app.get('*', (req, res, next) => {
+app.get('/*', (req, res, next) => {
   if (req.method !== 'GET') return next()
   if (req.path.startsWith('/api') || req.path.startsWith('/docs') || req.path.startsWith('/api/docs')) return next()
   const indexPath = path.join(__dirname, 'public', 'index.html')
