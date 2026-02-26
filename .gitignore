@@ -1,0 +1,25 @@
+# Node
+node_modules/
+npm-debug.log*
+.env
+.DS_Store
+.vscode/
+.idea/
+dist/
+build/
+coverage/
+playwright-report/
+/test-results/
+
+# OS
+Thumbs.db
+desktop.ini
+
+# logs
+*.log
+
+# lock files
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.env
