@@ -11,6 +11,7 @@ const rateLimit = require('express-rate-limit')
 const cookieParser = require('cookie-parser')
 const swaggerUi = require('swagger-ui-express')
 const openApiSpec = require('./docs/openapi')
+const path = require('path')
 
 const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
@@ -54,9 +55,22 @@ if (process.env.NODE_ENV !== 'production') {
   app.use('/api/testing', testingRouter)
 }
 
-// root health/info endpoint to avoid 404 'unknown endpoint' on /
-app.get('/', (_req, res) => {
+// Serve frontend static files from /public (if present)
+app.use(express.static(path.join(__dirname, 'public')))
+
+// root health/info endpoint for API clients
+app.get('/health', (_req, res) => {
   res.json({ status: 'ok', message: 'Ausauth Blog API running' })
+})
+
+// SPA fallback: serve index.html for non-API GET requests so client-side routing works
+app.get('*', (req, res, next) => {
+  if (req.method !== 'GET') return next()
+  if (req.path.startsWith('/api') || req.path.startsWith('/docs') || req.path.startsWith('/api/docs')) return next()
+  const indexPath = path.join(__dirname, 'public', 'index.html')
+  res.sendFile(indexPath, (err) => {
+    if (err) next()
+  })
 })
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
