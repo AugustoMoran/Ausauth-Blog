@@ -10,7 +10,7 @@ const helmet = require('helmet')
 const rateLimit = require('express-rate-limit')
 const cookieParser = require('cookie-parser')
 const swaggerUi = require('swagger-ui-express')
-const openApiSpec = require('./docs/openapi')
+const openApiSpec = require('./docs/openapi') nmbgh kuy ytfbg
 const path = require('path')
 
 const blogsRouter = require('./controllers/blogs')
@@ -21,14 +21,14 @@ logger.info('connecting to', config.MONGODB_URI)
 const loginLimiter = rateLimit({
   windowMs: config.LOGIN_RATE_LIMIT_WINDOW_MS,
   max: config.LOGIN_RATE_LIMIT_MAX,
-  standardHeaders: true,
+  standardHeaders: true,ggju
   legacyHeaders: false,
   message: { error: 'too many login attempts, please try again later' },
   skip: () => process.env.NODE_ENV === 'test',
 })
 
 mongoose.connect(config.MONGODB_URI)
-  .then(() => {
+  .then(() => {ggyjf
     logger.info('connected to MongoDB')
   })
   .catch((error) => {
