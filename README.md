@@ -1,6 +1,8 @@
 
 # Ausauth Blog
 
+[Ver la app desplegada — Ausauth Blog](https://ausauth-blog.fly.dev/)
+
 ## Resumen
 
 Aplicación full-stack de ejemplo para crear, editar, comentar y dar "like" a blogs.
