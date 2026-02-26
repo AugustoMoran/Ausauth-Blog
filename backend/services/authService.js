@@ -10,7 +10,7 @@ const createAccessToken = (user) => jwt.sign(
     id: user._id,
     type: 'access',
   },
-  process.env.SECRET,
+  config.SECRET,
   { expiresIn: config.JWT_EXPIRES_IN }
 )
 

@@ -16,7 +16,8 @@ const setToken = (token) => {
 client.interceptors.request.use((requestConfig) => {
   if (authToken) {
     requestConfig.headers = requestConfig.headers || {}
-    requestConfig.headers.Authorization = `Bearer ${authToken}`
+    requestConfig.headers.
+    Authorization = `Bearer ${authToken}`
   }
 
   return requestConfig

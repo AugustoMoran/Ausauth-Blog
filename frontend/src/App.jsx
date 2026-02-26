@@ -173,7 +173,7 @@ function App() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>📚 Blog List</h1>
+        <h1>📚 Ausauth Blog</h1>
       </header>
       <main className="app-main">
         <Notification notification={notification} />
@@ -187,7 +187,7 @@ function App() {
             )}
             <button
               type="button"
-              className="btn-secondary"
+              className="btn-secondary auth-toggle"
               onClick={() => setAuthMode((prev) => prev === 'login' ? 'register' : 'login')}
               disabled={isAuthLoading}
               style={{ marginTop: '12px' }}
@@ -201,13 +201,13 @@ function App() {
               <p>Logged in as <strong>{user.name}</strong></p>
               <button onClick={handleLogout} className="btn-logout">logout</button>
             </div>
-            <div style={{ marginTop: '12px', marginBottom: '12px', padding: '12px', background: '#f7f9fc', borderRadius: '6px' }}>
+            <div style={{ marginTop: '12px', marginBottom: '12px', padding: '12px', background: '#0f1724', borderRadius: '6px', color: '#e6eef8' }}>
               <strong>👤 Your profile</strong>
               <p style={{ margin: '6px 0' }}>Blogs created: {ownBlogs.length}</p>
               <p style={{ margin: '6px 0' }}>Total likes received: {ownLikes}</p>
             </div>
             {isBlogsLoading && (
-              <p style={{ marginTop: '10px', color: '#666' }}>Loading blogs…</p>
+              <p style={{ marginTop: '10px' }} className="loading-muted">Loading blogs…</p>
             )}
             <Togglable buttonLabel="new blog">
               <BlogForm createBlog={addBlog} loading={isCreateLoading} />

@@ -1,6 +1,7 @@
 const logger = require('./logger')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
+const config = require('./config')
 
 const sanitizeBodyForLogs = (body = {}) => {
   if (!body || typeof body !== 'object') {
@@ -81,7 +82,7 @@ const userExtractor = async (request, response, next) => {
   }
 
   try {
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const decodedToken = jwt.verify(request.token, config.SECRET)
     if (!decodedToken.id) {
       return response.status(401).json({ error: 'token invalid' })
     }

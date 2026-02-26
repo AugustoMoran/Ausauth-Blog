@@ -27,11 +27,11 @@ const BlogForm = ({ createBlog, loading = false }) => {
   }
 
   return (
-    <div style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '4px', marginBottom: '20px' }}>
-      <h2 style={{ marginTop: 0, marginBottom: '20px', color: '#333' }}>Create new blog</h2>
+    <div style={{ backgroundColor: 'var(--surface)', padding: '20px', borderRadius: '8px', marginBottom: '20px', boxShadow: '0 6px 18px rgba(2,6,23,0.6)' }}>
+      <h2 style={{ marginTop: 0, marginBottom: '20px', color: 'var(--text)' }}>Create new blog</h2>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <div>
-          <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: '#333' }}>
+          <label style={{ display: 'block', marginBottom: '6px', fontWeight: '600', color: 'var(--text)' }}>
             title:
           </label>
           <input
@@ -43,14 +43,16 @@ const BlogForm = ({ createBlog, loading = false }) => {
               width: '100%',
               padding: '10px',
               fontSize: '14px',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
+              border: '1px solid #233042',
+              borderRadius: '6px',
               boxSizing: 'border-box',
+              background: 'var(--surface)',
+              color: 'var(--text)'
             }}
           />
         </div>
         <div>
-          <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: '#333' }}>
+          <label style={{ display: 'block', marginBottom: '6px', fontWeight: '600', color: 'var(--text)' }}>
             author:
           </label>
           <input
@@ -62,14 +64,16 @@ const BlogForm = ({ createBlog, loading = false }) => {
               width: '100%',
               padding: '10px',
               fontSize: '14px',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
+              border: '1px solid #233042',
+              borderRadius: '6px',
               boxSizing: 'border-box',
+              background: 'var(--surface)',
+              color: 'var(--text)'
             }}
           />
         </div>
         <div>
-          <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: '#333' }}>
+          <label style={{ display: 'block', marginBottom: '6px', fontWeight: '600', color: 'var(--text)' }}>
             content:
           </label>
           <input
@@ -81,9 +85,11 @@ const BlogForm = ({ createBlog, loading = false }) => {
               width: '100%',
               padding: '10px',
               fontSize: '14px',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
+              border: '1px solid #233042',
+              borderRadius: '6px',
               boxSizing: 'border-box',
+              background: 'var(--surface)',
+              color: 'var(--text)'
             }}
           />
         </div>

@@ -10,11 +10,12 @@ const overlayStyles = {
 }
 
 const containerStyles = {
-  background: '#fff',
+  background: 'var(--surface)',
+  color: 'var(--text)',
   borderRadius: '8px',
   padding: '16px',
   width: 'min(92vw, 420px)',
-  boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+  boxShadow: '0 10px 30px rgba(0,0,0,0.45)',
 }
 
 const ConfirmDialog = ({
@@ -46,7 +47,7 @@ const ConfirmDialog = ({
         <p style={{ marginBottom: '16px' }}>{message}</p>
 
         <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-          <button onClick={onCancel} className="btn-secondary" disabled={loading}>
+          <button onClick={onCancel} className="btn-cancel" disabled={loading}>
             {cancelText}
           </button>
           <button onClick={onConfirm} className="btn-delete" disabled={loading}>

@@ -23,7 +23,7 @@ const BlogList = ({
 
   return (
     <div style={{ marginTop: '24px' }}>
-      <h2 style={{ marginBottom: '16px', color: '#333' }}>
+      <h2 style={{ marginBottom: '16px', color: 'var(--text)' }}>
         📝 Blogs ({sortedBlogs.length})
       </h2>
 
@@ -36,7 +36,7 @@ const BlogList = ({
             setSearch(event.target.value)
             setPage(1)
           }}
-          style={{ padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}
+          style={{ padding: '8px', border: '1px solid #233042', borderRadius: '4px', background: 'var(--surface)', color: 'var(--text)' }}
         />
         <input
           type="text"
@@ -46,7 +46,7 @@ const BlogList = ({
             setAuthorFilter(event.target.value)
             setPage(1)
           }}
-          style={{ padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}
+          style={{ padding: '8px', border: '1px solid #233042', borderRadius: '4px', background: 'var(--surface)', color: 'var(--text)' }}
         />
       </div>
 
@@ -54,9 +54,9 @@ const BlogList = ({
         <div style={{
           padding: '24px',
           textAlign: 'center',
-          backgroundColor: '#f5f5f5',
+          backgroundColor: 'var(--surface)',
           borderRadius: '4px',
-          color: '#999',
+          color: 'var(--muted)',
           fontSize: '16px',
         }}>
           No blogs yet. Be the first to create one!
@@ -84,7 +84,7 @@ const BlogList = ({
           <button className="btn-secondary" onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1}>
             Previous
           </button>
-          <span style={{ fontSize: '14px', color: '#666' }}>
+          <span style={{ fontSize: '14px', color: 'var(--muted)' }}>
             Page {page} / {totalPages}
           </span>
           <button className="btn-secondary" onClick={() => setPage(Math.min(totalPages, page + 1))} disabled={page === totalPages}>

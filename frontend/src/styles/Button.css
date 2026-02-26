@@ -1,99 +1,85 @@
-/* Base button styles */
+/* Button styles adapted for dark theme with semantic colors */
 button {
   padding: 8px 12px;
   font-size: 14px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-weight: 500;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
 }
 
 button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
 }
 
 button:active {
-  transform: scale(0.98);
+  transform: translateY(0);
 }
 
 button:disabled {
-  opacity: 0.65;
+  opacity: 0.55;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
-/* Primary button (login, create blog) */
+/* Primary action (confirmations, create, save) - prominent cyan/blue */
 .btn-primary {
-  background-color: #646cff;
-  color: white;
-  border: 1px solid #646cff;
+  background: linear-gradient(90deg, var(--accent), #7dd3fc);
+  color: var(--bg);
+  border: 1px solid rgba(96,165,250,0.18);
+  box-shadow: 0 8px 20px rgba(2,6,23,0.55);
 }
+.btn-primary:hover { filter: brightness(1.03); }
 
-.btn-primary:hover {
-  background-color: #535bf2;
-  border-color: #535bf2;
-}
-
-/* Secondary button (view/hide) */
+/* Secondary action - neutral, transparent but visible */
 .btn-secondary {
-  background-color: #f0f0f0;
-  color: #333;
-  border: 1px solid #ccc;
+  background: rgba(255,255,255,0.02);
+  color: var(--text);
+  border: 1px solid #233042;
 }
+.btn-secondary:hover { background: rgba(255,255,255,0.04); }
 
-.btn-secondary:hover {
-  background-color: #e0e0e0;
-}
-
-/* Like button (info style) */
+/* Informational / positive actions (like) - green */
 .btn-like {
-  background-color: #4CAF50;
+  background: linear-gradient(90deg, #10b981, #34d399);
   color: white;
-  border: 1px solid #45a049;
+  border: 1px solid rgba(16,185,129,0.2);
 }
+.btn-like:hover { filter: brightness(0.96); }
 
-.btn-like:hover {
-  background-color: #45a049;
-}
-
-/* Delete button (danger style) */
+/* Danger / destructive (delete) - red */
 .btn-delete {
-  background-color: #f44336;
+  background: linear-gradient(90deg, #ef4444, #dc2626);
   color: white;
-  border: 1px solid #da190b;
+  border: 1px solid rgba(220,38,38,0.2);
 }
+.btn-delete:hover { filter: brightness(0.95); }
 
-.btn-delete:hover {
-  background-color: #da190b;
-}
-
-/* Logout button */
+/* Logout / warning - orange */
 .btn-logout {
-  background-color: #ff9800;
+  background: linear-gradient(90deg, #f59e0b, #fb923c);
   color: white;
-  border: 1px solid #e68900;
+  border: 1px solid rgba(245,158,11,0.18);
 }
+.btn-logout:hover { filter: brightness(0.97); }
 
-.btn-logout:hover {
-  background-color: #e68900;
+/* Cancel uses danger tone but slightly softer than delete */
+.btn-cancel {
+  background: linear-gradient(90deg, #f87171, #ef4444);
+  color: white;
+  border: 1px solid rgba(239,68,68,0.18);
 }
+.btn-cancel:hover { filter: brightness(0.96); }
 
-/* Responsive design */
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  button {
-    padding: 10px 14px;
-    font-size: 15px;
-    width: 100%;
-    margin-bottom: 8px;
-  }
+  button { padding: 10px 14px; font-size: 15px; width: 100%; margin-bottom: 8px; }
 }
 
 @media (max-width: 480px) {
-  button {
-    padding: 12px 16px;
-    font-size: 16px;
-  }
+  button { padding: 12px 16px; font-size: 16px; }
 }

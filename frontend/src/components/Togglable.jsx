@@ -18,7 +18,7 @@ const Togglable = ({ buttonLabel, children }) => {
       </div>
       <div style={showWhenVisible}>
         {children}
-        <button onClick={toggleVisibility} className="btn-secondary" style={{ marginTop: '12px' }}>cancel</button>
+        <button onClick={toggleVisibility} className="btn-cancel" style={{ marginTop: '12px' }}>cancel</button>
       </div>
     </div>
   )

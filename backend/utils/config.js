@@ -1,10 +1,22 @@
 require('dotenv').config()
 const PORT = process.env.PORT || 3003
-const MONGODB_URI = process.env.NODE_ENV === 'test'
-  ? process.env.TEST_MONGODB_URI
-  : process.env.MONGODB_URI
+
+// Provide a sensible local fallback for development so the app can run without
+// requiring the user to always set MONGODB_URI in their environment.
+// In production you should always set a proper `MONGODB_URI` and rotate creds.
+let MONGODB_URI
+if (process.env.NODE_ENV === 'test') {
+  MONGODB_URI = process.env.TEST_MONGODB_URI
+} else {
+  MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/bloglist'
+  if (!process.env.MONGODB_URI) {
+    // eslint-disable-next-line no-console
+    console.warn('Warning: MONGODB_URI not set — falling back to local mongodb://127.0.0.1:27017/bloglist')
+  }
+}
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h'
-const REFRESH_SECRET = process.env.REFRESH_SECRET || process.env.SECRET
+const SECRET = process.env.SECRET || 'dev_secret_change_me'
+const REFRESH_SECRET = process.env.REFRESH_SECRET || SECRET
 const REFRESH_TOKEN_EXPIRES_IN = process.env.REFRESH_TOKEN_EXPIRES_IN || '7d'
 
 const parsedRefreshTokenCookieMaxAgeMs = Number(process.env.REFRESH_TOKEN_COOKIE_MAX_AGE_MS)
@@ -28,6 +40,7 @@ module.exports = {
   MONGODB_URI,
   PORT,
   JWT_EXPIRES_IN,
+  SECRET,
   REFRESH_SECRET,
   REFRESH_TOKEN_EXPIRES_IN,
   REFRESH_TOKEN_COOKIE_MAX_AGE_MS,
