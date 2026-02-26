@@ -7,20 +7,63 @@ npm-debug.log*
 .idea/
 dist/
 build/
-coverage/
-playwright-report/
-/test-results/
-
-# OS
-Thumbs.db
-desktop.ini
-
-# logs
-*.log
-
-# lock files
+# Node
+node_modules/
+npm-debug.log*
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+
+# Environment files (ignore all .env variants except examples)
 .env
+**/.env*
+!.env.example
+!.env.example.*
 backend/.env
+frontend/temp-user.json
+temp-user.json
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# Build / Output
+dist/
+build/
+coverage/
+playwright-report/
+test-results/
+.vite
+.vite/*
+out/
+
+# Secrets / Keys / Certificates
+*.pem
+*.key
+*.crt
+*.pfx
+*.jks
+*.p12
+*.asc
+credentials.json
+.env.*.local
+
+# IDE / Editor
+.vscode/
+.idea/
+.history
+*.sublime-workspace
+*.sublime-project
+
+# Misc
+.cache/
+.cache
+tmp/
+temp/
+*.bak
