@@ -46,6 +46,61 @@ Tecnologías y medidas adicionales aplicadas en esta aplicación:
   - Buenas prácticas en manejo de errores y mensajes de respuesta para evitar fugas de información.
   - Recomendación: eliminar `node_modules` del historial git y usar `.gitignore` para no subir dependencias.
 
+## Listado completo de tecnologías y herramientas
+
+A continuación se muestra un inventario categorizado de las tecnologías, librerías y prácticas utilizadas en este proyecto.
+
+- Seguridad & Autenticación
+  - JWT (access tokens cortos) y Refresh Tokens con rotación (JTI)
+  - Cookies httpOnly, SameSite y Secure (en producción)
+  - Helmet (cabeceras de seguridad / CSP)
+  - express-rate-limit (limitación de intentos, p. ej. login)
+  - Validación de entrada con Zod
+
+- Backend / API
+  - Node.js (v18+/v20 compatible) y Express
+  - Mongoose (ODM) + MongoDB (Atlas o local)
+  - Estructura por controladores y servicios
+  - OpenAPI / swagger-ui para documentación de endpoints
+  - body-parser / express.json
+
+- Frontend
+  - React (18+) y Vite
+  - CSS variables para theming (tema oscuro por defecto)
+  - Componentización con Hooks y pequeños componentes reutilizables
+
+- HTTP / Cliente
+  - axios (cliente HTTP) con withCredentials para cookies
+  - Estrategia de refresh automático: interceptor que llama `/api/login/refresh` y reintenta peticiones 401
+
+- Testing
+  - Unit / Integration backend: Jest + supertest (tests de endpoints)
+  - Unit frontend: Vitest + Testing Library (componentes)
+  - E2E: Playwright Test (tests en `frontend/e2e`)
+
+- DevOps / CI / Deploy
+  - Fly.io para hosting y despliegue (imagen Docker)
+  - Dockerfile para el backend; imagen construida y push a registry.fly.io
+  - GitHub Actions (workflows de CI) — ejecutar tests y linters
+
+- Linting / Calidad
+  - ESLint (configuración en frontend/backend)
+  - Prettier (formato consistente)
+
+- Observability / Logs
+  - Logger (módulo centralizado) — registra eventos y errores
+  - Soporte para ver logs remotos (fly logs) y health endpoint (`/health`)
+
+- Otras librerías y utilidades notables
+  - bcrypt (hashing de contraseñas)
+  - cookie-parser
+  - helmet
+  - express-rate-limit
+  - zod (validaciones)
+  - swagger-ui-express
+
+Si quieres, puedo añadir esta sección también al `frontend/README.md` o generar un archivo `TECH.md` más detallado con versiones y enlaces a la documentación.
+
 ## Ejecutar en desarrollo
 
 1) Backend
